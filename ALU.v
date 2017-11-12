@@ -14,7 +14,7 @@
 module ALU(
 	input [15:0] in1, in2,
 	input [4:0] opcode,		//00001 is add, 00010 is mult, 00100 is and, 01000 is or, 10000 is xor, and 00000 is clear
-	input inv, sub, ovwA, clk,
+	input inv, sub, ovwA, clk, rst,
 	output [15:0] out, A,
 	output zero, overflow, neg
 	);
@@ -24,11 +24,11 @@ module ALU(
 	wire ofA, ofM;
 
 	MUX2WAY16 mux2(out, in1, ovwA, newA);									//Overwrite the A register if they want to
-	REGISTER16 a(newA, clk, A);
-	REGISTER16 b(in2, clk, B);
-	REGISTER5 op(opcode, clk, curOp);
-	REGISTER1 inverse(inv, clk, curInv);
-	REGISTER1 subtract(sub, clk, curSub);
+	REGISTER16 a(newA, clk, rst, A);
+	REGISTER16 b(in2, clk, rst, B);
+	REGISTER5 op(opcode, clk, rst, curOp);
+	REGISTER1 inverse(inv, clk, rst, curInv);
+	REGISTER1 subtract(sub, clk, rst, curSub);
 
 	TWOS16 twos(B, curSub, outTC);											//Negate in2 if we're subtracting
 	ADDER16 adder(A, outTC, outADD, ofA);									//Add in1 and in2, then save the result and if it overflowed
@@ -42,9 +42,9 @@ module ALU(
 	NOT16 negator(outMux, curInv, out);										//Not the output if needed
 
 
-	assign overflow = (curSub == 1 && curOp[0] == 1 ?						//I don't really understand this part
+	assign overflow = (curSub == 1 && curOp[0] == 1 ?						//Set overflow bit if overflow occurred on add or multiply
 		0 : (ofA & curOp[0]) | (ofM & curOp[1]));
-	assign zero = ~(|out);													//Or together all bits of out and not it to find out if the result is negative
-	assign neg = ~ofA & curSub & curOp[0];									//I don't understand this either
+	assign zero = ~(|out);													//Set zero bit if result is zero
+	assign neg = ~ofA & curSub & curOp[0];									//Set negative bit if result is less than zero
 
 endmodule

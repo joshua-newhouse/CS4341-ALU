@@ -1,5 +1,5 @@
-module REGISTER1(input D, input clk, output reg Q);
+module REGISTER1(input D, input clk, rst, output reg Q);
 	always @(posedge clk) begin
-		Q = D;
+		Q = rst ? 0 : D;
 	end
 endmodule
