@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Verilog ALU</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="static/bootstrap.min.css">
+    <script src="static/jquery-3.2.1.slim.min.js"></script>
+    <script src="static/popper.min.js"></script>
+    <script src="static/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1 style="padding-top: 2rem;">Verlog ALU</h1>
+      <form action="/" method="post">
+  	<div class="form-group">
+	  <label for="x">X</label>
+	  <input type="number" class="form-control" id="x" name="x" placeholder="0" min="0" max="65534">
+	</div>
+	<div class="form-group">
+	  <label for="y">Y</label>
+	  <input type="number" class="form-control" id="y" name="y" placeholder="0" min="0" max="65534">
+	</div>
+	<div class="form-group">
+	  <label for="op">Operation:</label>
+	  <select class="form-control" id="op" name="op">
+	    <option>ADD</option>
+	    <option>SUB</option>
+	    <option>MULT</option>
+	    <option>AND</option>
+	    <option>OR</option>
+	    <option>XOR</option>
+	    <option>NOT</option>
+	  </select>
+	</div>
+	<button type="submit" class="btn btn-primary" value="Submit">Calculate</button>
+      </form>
+      {% if result is defined %}
+      {{ result }}
+      {% endif %}
+    </div>
+  </body>
+</html>

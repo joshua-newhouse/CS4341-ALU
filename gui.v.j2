@@ -1,0 +1,24 @@
+`include "ALU.v"
+
+module TestBench;
+	reg [15:0] in1, in2;
+	wire [15:0] out;
+	reg [4:0] opcode;
+	reg inv, sub;
+	wire zero, of, neg;
+
+	integer i;
+
+	ALU alu(in1, in2, opcode, inv, sub, out, zero, of, neg);
+
+	initial begin
+		$monitor("%d", out);
+		for(i = 0; i < 1; i = i + 1) begin
+			in1 = {{ x }};
+			in2 = {{ y }};
+			opcode = 5'b{{ opcode }};
+			sub = {{ sub }};
+			inv = {{ inv }};
+		end
+	end
+endmodule
