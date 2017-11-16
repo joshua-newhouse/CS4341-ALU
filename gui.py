@@ -37,7 +37,7 @@ def template_verilog(x, y, op, template_name, out_name):
 
 def run_verilog(out_name, exec_name):
     check_output(['iverilog', '-o', exec_name, out_name])
-    output = check_output(['./{}'.format(exec_name)]).decode('ASCII').strip()
+    output = check_output(['./{}'.format(exec_name)]).decode('ASCII').strip().split(' ')[-1]
     check_output(['rm', out_name, exec_name])
     return output
 
