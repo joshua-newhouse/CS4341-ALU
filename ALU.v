@@ -11,11 +11,14 @@
 `include "register5.v"
 `include "register1.v"
 
+/* Note that the A and B registers are set as outputs of the ALU.  This is for
+   testing purposes only, the actual ALU does not output the values in these
+   registers.																	*/
 module ALU(
 	input [15:0] in1, in2,
 	input [4:0] opcode,		//00001 is add, 00010 is mult, 00100 is and, 01000 is or, 10000 is xor, and 00000 is clear
 	input inv, sub, clk, rst,
-	input [1:0] loadA,
+	input [1:0] loadA,		//00 A keeps current value, 01 A is loaded with in1, 10 A is loaded with out, 11 invalid
 	output [15:0] out, A, B,
 	output zero, overflow, neg
 	);
