@@ -13,7 +13,7 @@ module TestBench;
 	ALU alu(in1, in2, opcode, inv, sub, clk, rst, loadA, out, A, B, zero, of, neg);
 
    	initial begin
-		$monitor("%d", out);
+		$monitor("%d,%d,%d;", of, neg, out);
 		clk = 0;
 		for(i = 0; i < 5; i = i + 1) begin
 			#1 clk = ~clk;

@@ -37,7 +37,15 @@ def template_verilog(x, y, op, template_name, out_name):
 
 def run_verilog(out_name, exec_name):
     check_output(['iverilog', '-o', exec_name, out_name])
-    output = check_output(['./{}'.format(exec_name)]).decode('ASCII').strip().split(' ')[-1]
+    output = check_output(['./{}'.format(exec_name)]).decode('ASCII').strip().split(';')[-2]
+    overflow, negative, value = [int(val) for val in output.split(',')]
+    if overflow == 1:
+        output = 'OVERFLOW'
+    else:
+        if negative == 1:
+            output = value - 65536
+        else:
+            output = value
     check_output(['rm', out_name, exec_name])
     return output
 
